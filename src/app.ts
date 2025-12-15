@@ -1,38 +1,28 @@
-// Basic TypeScript bootstrap and feature flag config
+import express, { Application } from "express";
+import cors from "cors";
+import dotenv from "dotenv";
 
-type Role = "admin" | "customer";
+import { authRouter } from "./modules/auth/auth.routes";
+import { vehicleRouter } from "./modules/vehicles/vehicle.routes";
+import { userRouter } from "./modules/users/user.routes";
+import { bookingRouter } from "./modules/bookings/booking.routes";
+import { globalErrorHandler } from "./middlewares/globalErrorHandler";
 
-export interface AppConfig {
-	projectName: string;
-	version: string;
-	features: {
-		enableClaudeHaiku45ForAllClients: boolean;
-	};
-}
+dotenv.config();
 
-// Read from env with safe default
-const enableClaudeEnv = process.env.ENABLE_CLAUDE_HAIKU_4_5;
-const enableClaude = enableClaudeEnv
-	? enableClaudeEnv.toLowerCase() === "true"
-	: true; // default enabled for all clients
+export const app: Application = express();
 
-export const config: AppConfig = {
-	projectName: "Vehicle Rental System",
-	version: "1.0.0",
-	features: {
-		enableClaudeHaiku45ForAllClients: enableClaude,
-	},
-};
+app.use(cors());
 
-// Example utility demonstrating usage of the feature flag
-export function isClaudeEnabledForClient(_clientId: string, _role: Role): boolean {
-	// Since requirement says "for all clients", we return the global flag
-	return config.features.enableClaudeHaiku45ForAllClients;
-}
+app.use(express.json());
 
-// Small demo runner when invoked directly (node ts-node or compiled)
-if (require.main === module) {
-	// eslint-disable-next-line no-console
-	console.log("Claude Haiku 4.5 enabled:", config.features.enableClaudeHaiku45ForAllClients);
-}
+app.use("/api/v1/auth", authRouter);
+
+app.use("/api/v1/vehicles", vehicleRouter);
+
+app.use("/api/v1/users", userRouter);
+
+app.use("/api/v1/bookings", bookingRouter);
+
+app.use(globalErrorHandler);
 
