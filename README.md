@@ -11,6 +11,7 @@ A backend API for a vehicle rental management system that handles:
 - **Authentication** - Secure role-based access control (Admin and Customer roles)
 
 
+
 Technology Stack : 
 
 - **Node.js** + **TypeScript**
