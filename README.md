@@ -18,7 +18,6 @@ A backend API for a vehicle rental management system that handles:
 Technology Stack : 
 
 
-
 - **Node.js** + **TypeScript**
 - **Express.js** (web framework)
 - **PostgreSQL** (database)
