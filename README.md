@@ -8,15 +8,14 @@ Live Project Link: [vehicle-rental-system](https://vehicle-rental-system-9jin.on
 ## 🎯 Project Overview
 
 A backend API for a vehicle rental management system that handles:
+
 - **Vehicles** - Manage vehicle inventory with availability tracking
 - **Customers** - Manage customer accounts and profiles
 - **Bookings** - Handle vehicle rentals, returns and cost calculation
 - **Authentication** - Secure role-based access control (Admin and Customer roles)
 
 
-
-Technology Stack : 
-
+Technology Stack:
 
 - **Node.js** + **TypeScript**
 - **Express.js** (web framework)
@@ -34,8 +33,8 @@ Technology Stack :
 
 ## 📊 Database Tables
 
-
 ### Users
+
 | Field | Notes |
 |-------|-------|
 | id | Auto-generated |
@@ -45,7 +44,9 @@ Technology Stack :
 | phone | Required |
 | role | 'admin' or 'customer' |
 
+
 ### Vehicles
+
 | Field | Notes |
 |-------|-------|
 | id | Auto-generated |
@@ -55,7 +56,9 @@ Technology Stack :
 | daily_rent_price | Required, positive |
 | availability_status | 'available' or 'booked' |
 
+
 ### Bookings
+
 | Field | Notes |
 |-------|-------|
 | id | Auto-generated |
@@ -71,10 +74,12 @@ Technology Stack :
 ## 🔐 Authentication & Authorization
 
 ### User Roles
+
 - **Admin** - Full system access to manage vehicles, users and all bookings
 - **Customer** - Can register, view vehicles, create/manage own bookings
 
 ### Authentication Flow
+
 1. Passwords are hashed using bcrypt before storage into the database
 2. User login via `/api/v1/auth/signin` and receives a JWT (JSON Web Token)
 3. Protected endpoints require token in header: `Authorization: Bearer <token>`
@@ -84,11 +89,13 @@ Technology Stack :
 ---
 
 > ⚠️ **IMPORTANT:** All API endpoint implementations exactly match the specifications defined in **[API Reference](API_REFERENCE.md)**. This includes:
+
 > - Exact URL patterns (e.g., `/api/v1/vehicles/:vehicleId`)
 > - Request body structure and field names
 > - Response format and data structure
 
 ### Authentication
+
 | Method | Endpoint | Access | Description |
 |--------|----------|--------|-------------|
 | POST | `/api/v1/auth/signup` | Public | Register new user account |
@@ -96,7 +103,8 @@ Technology Stack :
 
 ---
 
-### Vehicles
+### Vehicles API
+
 | Method | Endpoint | Access | Description |
 |--------|----------|--------|-------------|
 | POST | `/api/v1/vehicles` | Admin only | Add new vehicle with name, type, registration, daily rent price and availability status |
@@ -107,20 +115,22 @@ Technology Stack :
 
 ---
 
-### Users
+### Users API
+
 | Method | Endpoint | Access | Description |
 |--------|----------|--------|-------------|
 | GET | `/api/v1/users` | Admin only | View all users in the system |
-| PUT | `/api/v1/users/:userId` | Admin or Own | Admin: Update any user's role or details<br>Customer: Update own profile only |
+| PUT | `/api/v1/users/:userId` | Admin or Own | Admin: Update any user's role or details; Customer: Update own profile only |
 | DELETE | `/api/v1/users/:userId` | Admin only | Delete user (only if no active bookings exist) |
 
 ---
 
-### Bookings
+### Bookings API
+
 | Method | Endpoint | Access | Description |
 |--------|----------|--------|-------------|
-| POST | `/api/v1/bookings` | Customer or Admin | Create booking with start/end dates<br>• Validates vehicle availability<br>• Calculates total price (daily rate × duration)<br>• Updates vehicle status to "booked" |
-| GET | `/api/v1/bookings` | Role-based | Admin: View all bookings<br>Customer: View own bookings only |
-| PUT | `/api/v1/bookings/:bookingId` | Role-based | Customer: Cancel booking (before start date only)<br>Admin: Mark as "returned" (updates vehicle to "available")<br>System: Auto-mark as "returned" when period ends |
+| POST | `/api/v1/bookings` | Customer or Admin | Create booking with start/end dates; validates availability; calculates total price; updates vehicle status to "booked" |
+| GET | `/api/v1/bookings` | Role-based | Admin: View all bookings; Customer: View own bookings only |
+| PUT | `/api/v1/bookings/:bookingId` | Role-based | Customer: Cancel booking (before start date only); Admin: Mark as "returned"; System: Auto-return after end date |
 
 ---

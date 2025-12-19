@@ -1,0 +1,12 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.vehicleRouter = void 0;
+const express_1 = require("express");
+const authMiddleware_1 = require("../../middlewares/authMiddleware");
+const vehicle_controller_1 = require("./vehicle.controller");
+exports.vehicleRouter = (0, express_1.Router)();
+exports.vehicleRouter.get("/", vehicle_controller_1.getAllVehiclesController);
+exports.vehicleRouter.get("/:vehicleId", vehicle_controller_1.getVehicleByIdController);
+exports.vehicleRouter.post("/", authMiddleware_1.authenticate, (0, authMiddleware_1.authorize)("admin"), vehicle_controller_1.createVehicleController);
+exports.vehicleRouter.put("/:vehicleId", authMiddleware_1.authenticate, (0, authMiddleware_1.authorize)("admin"), vehicle_controller_1.updateVehicleByIdController);
+exports.vehicleRouter.delete("/:vehicleId", authMiddleware_1.authenticate, (0, authMiddleware_1.authorize)("admin"), vehicle_controller_1.deleteVehicleByIdController);

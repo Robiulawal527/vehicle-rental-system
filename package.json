@@ -4,9 +4,13 @@
   "description": "Backend API for a Vehicle Rental System built with Node.js, TypeScript, Express, and PostgreSQL.",
   "main": "dist/index.js",
   "scripts": {
-    "build": "tsc",
+    "build": "tsc -p tsconfig.server.json",
+    "build:client": "npm --prefix client run build",
+    "build:all": "npm run build && npm run build:client",
     "start": "node dist/index.js",
-    "dev": "ts-node-dev --respawn --transpile-only src/index.ts"
+    "dev": "TS_NODE_PROJECT=tsconfig.server.json ts-node-dev --respawn --transpile-only src/index.ts",
+    "dev:client": "npm --prefix client run dev",
+    "dev:all": "concurrently -k \"npm run dev\" \"npm run dev:client\""
   },
   "dependencies": {
     "bcrypt": "^5.1.1",
@@ -24,6 +28,7 @@
     "@types/node": "^22.10.2",
     "@types/pg": "^8.16.0",
     "ts-node-dev": "^2.0.0",
+    "concurrently": "^9.1.0",
     "typescript": "^5.6.3"
   }
 }
